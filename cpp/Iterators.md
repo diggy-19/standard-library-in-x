@@ -2,11 +2,11 @@
 
 <h2> INTRODUCTION</h2>
 
-What are iterators? In STL iterators are the most general way to access data in containers<br>
-An iterator is any object that, points to some element in a range of elements (such as an array or a container) and has the ability
+What are iterators?<br> 
+In STL, iterators are the most general way to access data in containers<br>
+An iterator, is any object that points to some element in a range of elements (such as an array or a container) and has the ability
 to iterate through those elements using a set of operators (with at least the increment (++) and dereference (*) operators).<br>
-Iterators provide some common additional functionality to container and makes it possible to iterate(traverse) through the containers which
-can be accessed through the bracket( **[ ]** ) operator.<br>
+Iterators provide some common additional functionality to container and makes it possible to iterate(traverse) through the containers which can be accessed through the bracket( **[ ]** ) operator.<br>
 The main advantage of iterators, of course, is that they greatly increase the reuse of code: your own algorithms, based on iterators, will work on a wide range of containers, and your own containers,
 which provide iterators, may be passed to a wide range of standard functions.
 
@@ -41,7 +41,7 @@ list <int>::iterator it;
 | <a>**inserter()**</a>        |    This function is used to insert the elements at any position in the container. It accepts 2 arguments, the container and iterator to position where the elements have to be inserted.   |
 | <a>**distance()**</a>        |Calculates the number of elements between first and last|
 
-!!Note-A few datatypes allow '-' operation to find the distance *second-first* but these aren't allowed for all containers hence we use distance().  
+Note-A few datatypes allow operand '-'  to find the distance, but these aren't allowed for all containers hence we use distance().  
 
 <h2> IMPLEMENTATION</h2>
 
