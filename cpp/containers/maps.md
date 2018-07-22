@@ -4,7 +4,7 @@
 
 <h2  > Introduction:</h2>
 
-A map is a datastructure to store a key value pair.
+A map is a datastructure to store a key value pair, wherein the value is mapped to the "unique" key.
 
 <h2 > Import:</h2>
 
@@ -26,7 +26,7 @@ A map is a datastructure to store a key value pair.
 
 6. Keys are unique. Same key cannot be used to store more than 1 values.
 
-<h2 > Usage:</h2>
+<h2 > Functions:</h2>
 <h3>1. Initialize</h3>
 
 Template has two data types first for key and second for value. User defined comparator can be added as third parameter.
@@ -109,6 +109,7 @@ cout << mymap['b'];
 ```cpp
 cout << mymap.at('b');
 ```
+Time complexity  = O(logN)
 
 <h4>3. Access using find()</h4>
 
@@ -116,16 +117,19 @@ cout << mymap.at('b');
 cout << mymap.find('b')->second;
 cout << (*mymap.find('b')).second;
 ```
+Time complexity  = O(logN)
 <h5 style="display:inline">Note:</h5> This method returns an iterator to the elements.
 
 <h3>5. Delete</h3>
 <h4>1. erase()</h4>
+erase() removes a single element or a range of elements from the map.
 
 ```cpp
 mymap.erase('b');
 it = mymap.find('a');
 mymap.erase(it, mymap.end());
 ```
+Time complexity  = O(1)
 
 <h3>6. Iteration</h3>
 
@@ -142,10 +146,11 @@ for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); it++)
 	std::cout << it->first << " => " << it->second << '\n';
 return 0;
 ```
+Time complexity  = O(1) for both
 
 <h2 > Complexities</h2>
 
-<h3>Insert: O(log(n))</h3>
+<h3>Insert: when element is inserted - O(log(n)), when position is specified - O(1)</h3>
 <h3>Access: O(log(n))</h3>
 <h3>Delete: O(1) + Access = O(log(n))</h3>
 
@@ -170,7 +175,7 @@ An unordered map is a datastructure to store a key value pair and access it fast
 
 2. Elements are referenced using their keys not by position(unlike arrays).
 
-3. The elements are not sorted.
+3. The elements are not sorted, they are organized into buckets depending on their hash values.
 
 4. Internal implementation is using hashing.
 
@@ -180,7 +185,7 @@ An unordered map is a datastructure to store a key value pair and access it fast
 
 7. Introduced in C++11.
 
-<h2 >Usage </h2>
+<h2 >Functions: </h2>
 <h3>1. Initialize</h3>
 
 Template has two data types first for key and second for value.
@@ -365,20 +370,128 @@ Use <a href = "http://www.cplusplus.com/reference/map/multimap/find/">this</a> l
 <h3>4. Access</h3>
 <h4>1. Access using find()</h4>
 Returns an iterator to an arbitrary element of possibly multiple elements having the given key.<br>
-<a href="http://www.cplusplus.com/reference/map/multimap/find/">Example</a>
+
+```cpp
+#include <iostream>
+#include <map>
+
+int main ()
+{
+  std::multimap<char,int> mymm;
+
+  mymm.insert (std::make_pair('x',10));
+  mymm.insert (std::make_pair('y',20));
+  mymm.insert (std::make_pair('z',30));
+  mymm.insert (std::make_pair('z',40));
+
+  std::multimap<char,int>::iterator it = mymm.find('x');
+  mymm.erase (it);
+  mymm.erase (mymm.find('z'));
+
+  // print content:
+  std::cout << "elements in mymm:" << '\n';
+  std::cout << "y => " << mymm.find('y')->second << '\n';
+  std::cout << "z => " << mymm.find('z')->second << '\n';
+
+  return 0;
+}
+```
 
 <h4>2. Access using equal_range()</h4>
 Returns a pair of iterators. First is an iterator to the first element having the given key. Second is the iterator to the next to last element having the key.<br>
-<a href="http://www.cplusplus.com/reference/map/multimap/equal_range/">Example</a>
+
+```cpp
+#include <iostream>
+#include <map>
+
+int main ()
+{
+  std::multimap<char,int> mymm;
+
+  mymm.insert(std::pair<char,int>('a',10));
+  mymm.insert(std::pair<char,int>('b',20));
+  mymm.insert(std::pair<char,int>('b',30));
+  mymm.insert(std::pair<char,int>('b',40));
+  mymm.insert(std::pair<char,int>('c',50));
+  mymm.insert(std::pair<char,int>('c',60));
+  mymm.insert(std::pair<char,int>('d',60));
+
+  std::cout << "mymm contains:\n";
+  for (char ch='a'; ch<='d'; ch++)
+  {
+    std::pair <std::multimap<char,int>::iterator, std::multimap<char,int>::iterator> ret;
+    ret = mymm.equal_range(ch);
+    std::cout << ch << " =>";
+    for (std::multimap<char,int>::iterator it=ret.first; it!=ret.second; ++it)
+      std::cout << ' ' << it->second;
+    std::cout << '\n';
+  }
+
+  return 0;
+}
+```
 
 <h3>5. Delete</h3>
 <h4>1. erase()</h4>
 Deletes an element using its iterator. Same as maps and unordered_maps.<br>
-<a href="http://www.cplusplus.com/reference/map/multimap/erase/">Example</a>
+
+```cpp
+#include <iostream>
+#include <map>
+
+int main ()
+{
+  std::multimap<char,int> mymultimap;
+
+  // insert some values:
+  mymultimap.insert(std::pair<char,int>('a',10));
+  mymultimap.insert(std::pair<char,int>('b',20));
+  mymultimap.insert(std::pair<char,int>('b',30));
+  mymultimap.insert(std::pair<char,int>('c',40));
+  mymultimap.insert(std::pair<char,int>('d',50));
+  mymultimap.insert(std::pair<char,int>('d',60));
+  mymultimap.insert(std::pair<char,int>('e',70));
+  mymultimap.insert(std::pair<char,int>('f',80));
+
+  std::multimap<char,int>::iterator it = mymultimap.find('b');
+
+  mymultimap.erase (it);                     // erasing by iterator (1 element)
+
+  mymultimap.erase ('d');                    // erasing by key (2 elements)
+
+  it=mymultimap.find ('e');
+  mymultimap.erase ( it, mymultimap.end() ); // erasing by range
+
+  // show content:
+  for (it=mymultimap.begin(); it!=mymultimap.end(); ++it)
+    std::cout << (*it).first << " => " << (*it).second << '\n';
+
+  return 0;
+}
+```
 
 <h3>6: Iteration</h3>
 Same as maps and unordered_maps.<br>
-<a href="http://www.cplusplus.com/reference/map/multimap/begin/">Example</a>
+
+```cpp
+#include <iostream>
+#include <map>
+
+int main ()
+{
+  std::multimap<char,int> mymultimap;
+
+  mymultimap.insert (std::pair<char,int>('a',10));
+  mymultimap.insert (std::pair<char,int>('b',20));
+  mymultimap.insert (std::pair<char,int>('b',150));
+
+  // show content:
+  for (std::multimap<char,int>::iterator it=mymultimap.begin(); it!=mymultimap.end(); ++it)
+    std::cout << (*it).first << " => " << (*it).second << '\n';
+
+  return 0;
+}
+```
 
 <h2 > Complexities </h2>
 <h3>Insert: O(log(n))</h3>
