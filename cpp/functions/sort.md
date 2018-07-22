@@ -108,7 +108,7 @@ All built-in types also implements natural ordering (implemented by the compiler
 ```cpp
 vector<Edge> v;
 sort(v.begin(), v.end());
-We can also use this class as an underlying type of STL containers:
+//We can also use this class as an underlying type of STL containers:
 
 priority_queue<Edge> pq;
 set<Edge> s;
